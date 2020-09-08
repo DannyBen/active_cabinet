@@ -7,11 +7,13 @@ ActiveCabinet
 
 ---
 
-An ActiveRecord-inspired interface for HashCabinet, the
+An ActiveRecord-inspired interface for [HashCabinet], the
 file-basd key-object store.
 
 It allows you to create models that are stored in a file-based key-value
 store, backed by Ruby's built in [SDBM].
+
+ActiveCabinet is a tiny library, with only [HashCabinet] as a dependency.
 
 ---
 
@@ -143,3 +145,4 @@ to contribute, feel free to [open an issue][issues].
 [SDBM]: https://ruby-doc.org/stdlib-2.7.1/libdoc/sdbm/rdoc/SDBM.html
 [docs]: https://rubydoc.info/gems/active_cabinet
 [issues]: https://github.com/DannyBen/active_cabinet/issues
+[HashCabinet]: https://github.com/DannyBen/hash_cabinet
