@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveCabinet, :focus do
+describe ActiveCabinet do
   let(:attributes) {{ id: 99, title: 'Red Balloons' }}
   let(:missing_attributes) {{ id: 99 }}
   let(:disallowed_attributes) {{ id: 99, title: 'Red Balloons', release_year: 'not allowed' }}
