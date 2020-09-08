@@ -8,7 +8,7 @@ ActiveCabinet
 ---
 
 An ActiveRecord-inspired interface for [HashCabinet], the
-file-basd key-object store.
+file-based key-object store.
 
 It allows you to create models that are stored in a file-based key-value
 store, backed by Ruby's built in [SDBM].
