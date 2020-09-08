@@ -17,4 +17,10 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.5.0"
 
   s.add_runtime_dependency 'hash_cabinet', '~> 0.1'
+
+  s.metadata = {
+    "bug_tracker_uri"   => "https://github.com/DannyBen/active_cabinet/issues",
+    "documentation_uri" => "https://rubydoc.info/gems/active_cabinet",
+    "source_code_uri"   => "https://github.com/dannyben/active_cabinet",
+  }
 end

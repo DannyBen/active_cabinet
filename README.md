@@ -1,13 +1,19 @@
 ActiveCabinet
 ==================================================
 
+[![Gem Version](https://badge.fury.io/rb/active_cabinet.svg)](https://badge.fury.io/rb/active_cabinet)
+[![Build Status](https://github.com/DannyBen/active_cabinet/workflows/Test/badge.svg)](https://github.com/DannyBen/active_cabinet/actions?query=workflow%3ATest)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a4302349baf2d20e2af8/maintainability)](https://codeclimate.com/github/DannyBen/active_cabinet/maintainability)
+
 ---
 
-ActiveCabinet is an ActiveRecord-inspired interface for HashCabinet, the
+An ActiveRecord-inspired interface for [HashCabinet], the
 file-basd key-object store.
 
 It allows you to create models that are stored in a file-based key-value
 store, backed by Ruby's built in [SDBM].
+
+ActiveCabinet is a tiny library, with only [HashCabinet] as a dependency.
 
 ---
 
@@ -83,7 +89,7 @@ song.valid?   # => true
 
 You can also restrict the allowed optional attributes
 
-```
+```ruby
 class Song < ActiveCabinet
   required_attributes :title
   optional_attributes :artist
@@ -125,12 +131,18 @@ class Song < ActiveCabinet
 end
 ```
 
-For the full documentation, see the [Documentation on RubyDoc][docs]
+## Documentation
 
+[Documentation on RubyDoc][docs]
 
-[SDBM]: https://ruby-doc.org/stdlib-2.6.3/libdoc/sdbm/rdoc/SDBM.html
-[docs]: https://rubydoc.info/gems/active_cabinet
+## Contributing / Support
+
+If you experience any issue, have a question or a suggestion, or if you wish
+to contribute, feel free to [open an issue][issues].
 
 ---
 
 [SDBM]: https://ruby-doc.org/stdlib-2.7.1/libdoc/sdbm/rdoc/SDBM.html
+[docs]: https://rubydoc.info/gems/active_cabinet
+[issues]: https://github.com/DannyBen/active_cabinet/issues
+[HashCabinet]: https://github.com/DannyBen/hash_cabinet
