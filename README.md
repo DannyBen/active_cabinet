@@ -131,7 +131,7 @@ end
 
 ## Documentation
 
-- [Documentation on RubyDoc][docs]
+[Documentation on RubyDoc][docs]
 
 ## Contributing / Support
 
