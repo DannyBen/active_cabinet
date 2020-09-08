@@ -42,6 +42,20 @@ describe ActiveCabinet do
       expect(subject.allowed_attributes).to match_array([:id, :title, :artist, :album])
     end
   end
+
+  describe '::cabinet_name' do
+    it "returns the name of the class, lowercased" do
+      expect(subject.cabinet_name).to eq 'mocks_song'
+    end
+
+    context "when the model specifies a different cabinet name" do
+      subject { SongCustomCabinet }
+
+      it "returns this name" do
+        expect(subject.cabinet_name).to eq "my_songs"
+      end
+    end
+  end
   
   describe '::count' do
     it "returns the number of records" do
@@ -142,6 +156,16 @@ describe ActiveCabinet do
       it "sets the optional attributes" do
         subject.optional_attributes :cake, :pizza
         expect(subject.optional_attributes).to match_array [:cake, :pizza]
+      end
+    end
+
+    context "with false as argument" do
+      before { @original = subject.optional_attributes }
+      after  { subject.optional_attributes @original }
+
+      it "sets optional_attributes to false" do
+        subject.optional_attributes false
+        expect(subject.optional_attributes).to be false
       end
     end
   end

@@ -105,7 +105,7 @@ class ActiveCabinet
     #
     # @return [Array<Symbol>] array of required attribute keys.
     def allowed_attributes
-      optional_attributes + required_attributes
+      (optional_attributes || []) + required_attributes
     end
 
     # Sets the required record attribute names.
@@ -129,10 +129,12 @@ class ActiveCabinet
     # @return [Array<Symbol>] the array of optional attributes.
     def optional_attributes(*args)
       args = args.first if args.first.is_a? Array
-      if args.any?
+      if args.first === false
+        @optional_attributes = false
+      elsif args.any?
         @optional_attributes = *args
       else
-        @optional_attributes ||= []
+        @optional_attributes.nil? ? [] : @optional_attributes
       end
     end
 
@@ -144,14 +146,24 @@ class ActiveCabinet
     end
 
     # Returns the +HashCabinet+ instance.
+    #
+    # @return [HashCabinet] the +HashCabinet+ object.
     def cabinet
       @cabinet ||= HashCabinet.new "#{Config.dir}/#{cabinet_name}"
     end
 
-  private
-
-    def cabinet_name
-      @cabinet_name ||= self.to_s.downcase.gsub('::', '_')
+    # Returns or sets the cabinet name. 
+    # Defaults to the name of the class, lowercase.
+    #
+    # @param [String] name the name of the cabinet file.
+    # @return [String] name the name of the cabinet file.
+    def cabinet_name(new_name = nil)
+      if new_name
+        @cabinet = nil
+        @cabinet_name = new_name
+      else
+        @cabinet_name ||= self.to_s.downcase.gsub('::', '_')
+      end
     end
 
   end

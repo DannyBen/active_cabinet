@@ -197,6 +197,28 @@ describe ActiveCabinet do
         expect(subject.error).to eq "invalid attributes: [:release_year]"
       end
     end
+
+    context "when the record is strict" do
+      subject { SongStrict.new id: 1, title: "Run to the Hills", artist: "Iron Maiden" }
+
+      it "returns false when it contains any argument that is not required" do
+        expect(subject).to be_valid
+        subject.album = "The Number of the Beast"
+        expect(subject).not_to be_valid
+        expect(subject.error).to eq "invalid attributes: [:album]"
+      end
+    end
+
+    context "when the record is loose" do
+      subject { SongLoose.new id: 1, title: "Run to the Hills", artist: "Iron Maiden" }
+
+      it "returns true even if it contains unknown attributes" do
+        expect(subject).to be_valid
+        subject.update album: "The Number of the Beast", year: 1982
+        expect(subject.year).to eq 1982
+        expect(subject).to be_valid
+      end
+    end
   end
 
 end

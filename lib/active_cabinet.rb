@@ -52,7 +52,7 @@ class ActiveCabinet
       return false
     end
 
-    if optional_attributes.any?
+    if !optional_attributes or optional_attributes.any?
       invalid_keys = attributes.keys - allowed_attributes
       if invalid_keys.any?
         @error = "invalid attributes: #{invalid_keys}"
