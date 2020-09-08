@@ -35,18 +35,19 @@ class ActiveCabinet
 
     # Creates and saves a new record instance.
     #
-    # @param [String] id the record id
-    # @param [Hash] attributes the attributes to create
+    # @param [String] id the record id.
+    # @param [Hash] attributes the attributes to create.
     def []=(id, attributes)
       create attributes.merge(id: id)
     end
 
     # Creates and saves a new record instance.
     #
-    # @param [Hash] attributes the attributes to create
+    # @param [Hash] attributes the attributes to create.
+    # @return [Object] the record.
     def create(attributes)
       record = new attributes
-      record.save
+      record.save || record
     end
 
     # @!group Reading Records
@@ -58,6 +59,13 @@ class ActiveCabinet
       cabinet.values.map do |attributes|
         new(attributes)
       end
+    end
+
+    # Returns all records, as an Array of Hashes.
+    #
+    # @return [Array] array of all records.
+    def all_attributes
+      cabinet.values
     end
 
     # Returns an array of records for which the block returns true.
@@ -96,7 +104,7 @@ class ActiveCabinet
     # Returns an array containing {required_attributes} and {optional_attributes}.
     #
     # @return [Array<Symbol>] array of required attribute keys.
-    def all_attributes
+    def allowed_attributes
       optional_attributes + required_attributes
     end
 
@@ -127,7 +135,6 @@ class ActiveCabinet
         @optional_attributes ||= []
       end
     end
-
 
     # @!group Utilities
 

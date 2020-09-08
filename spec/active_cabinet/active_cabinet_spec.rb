@@ -47,9 +47,9 @@ describe ActiveCabinet do
     end
   end
 
-  describe '#all_attributes' do
+  describe '#allowed_attributes' do
     it "returns an array of required and optional attributes" do
-      expect(subject.all_attributes).to match_array [:album, :artist, :id, :title]
+      expect(subject.allowed_attributes).to match_array [:album, :artist, :id, :title]
     end
   end
 
@@ -145,9 +145,9 @@ describe ActiveCabinet do
     end
   end
 
-  describe '#to_json' do
-    it "returns the attributes json-encoded" do
-      expect(subject.to_json).to eq %q[{"id":99,"title":"Red Balloons"}]
+  describe '#to_h' do
+    it "returns the attributes" do
+      expect(subject.to_h).to eq subject.attributes
     end
   end
 

@@ -22,8 +22,8 @@ class ActiveCabinet
   # Returns an array containing {required_attributes} and {optional_attributes}.
   #
   # @return [Array<Symbol>] array of required attribute keys.
-  def all_attributes
-    self.class.all_attributes
+  def allowed_attributes
+    self.class.allowed_attributes
   end
 
   # Returns an array of required record attributes. 
@@ -53,7 +53,7 @@ class ActiveCabinet
     end
 
     if optional_attributes.any?
-      invalid_keys = attributes.keys - all_attributes
+      invalid_keys = attributes.keys - allowed_attributes
       if invalid_keys.any?
         @error = "invalid attributes: #{invalid_keys}"
         return false
@@ -151,11 +151,11 @@ class ActiveCabinet
 
   # @!group Utilities
 
-  # Returns the JSON encoded {attributes}.
+  # Returns a Hash of attributes
   #
-  # @return [String] json encoded {attributes}.
-  def to_json
-    attributes.to_json
+  # @return [Hash<Symbol, Object>] the hash of attriibutes/
+  def to_h
+    attributes
   end
 
 protected

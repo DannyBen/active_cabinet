@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = ActiveCabinet::VERSION
   s.date        = Date.today.to_s
   s.summary     = "Database-like interface for HashCabinet"
-  s.description = "Database-like interface for HashCabinet"
+  s.description = "ActiveRecord-inspired interface for HashCabinet, the file-basd key-object store."
   s.authors     = ["Danny Ben Shitrit"]
   s.email       = 'db@dannyben.com'
   s.files       = Dir['README.md', 'lib/**/*.*']

@@ -30,8 +30,16 @@ describe ActiveCabinet do
   end
 
   describe '::all_attributes' do
+    it "returns an array of record attributes" do
+      expect(subject.all_attributes).to be_an Array
+      expect(subject.all_attributes.first).to be_a Hash
+      expect(subject.all_attributes.first[:title]).to eq "Master of Puppets"
+    end
+  end
+
+  describe '::allowed_attributes' do
     it "returns an array of required and optional attributes" do
-      expect(subject.all_attributes).to match_array([:id, :title, :artist, :album])
+      expect(subject.allowed_attributes).to match_array([:id, :title, :artist, :album])
     end
   end
   
@@ -59,15 +67,15 @@ describe ActiveCabinet do
     end
 
     context "with missing required attributes" do
-      it "does not save and returns false" do
-        expect(subject.create missing_attributes).to eq false
+      it "does not save and returns the unsaved record" do
+        expect(subject.create missing_attributes).to be_a Song
         expect(subject[99]).to be_nil
       end
     end
 
     context "with disallowed attributes" do
-      it "does not save and returns false" do
-        expect(subject.create disallowed_attributes).to eq false
+      it "does not save and returns the unsaved record" do
+        expect(subject.create disallowed_attributes).to be_a Song
         expect(subject[99]).to be_nil
       end
     end
