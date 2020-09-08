@@ -72,7 +72,7 @@ class ActiveCabinet
 
     suffix = nil
 
-    if name.end_with?('=', '?')
+    if name.to_s.end_with?('=', '?')
       suffix = name[-1]
       name = name[0..-2].to_sym
     end
@@ -95,7 +95,7 @@ class ActiveCabinet
   # @return [Boolean] +true+ if there is a matching attribute.
   def respond_to_missing?(method_name, include_private = false)
     name = method_name
-    name = name[0..-2].to_sym if name.end_with?('=', '?')
+    name = name[0..-2].to_sym if name.to_s.end_with?('=', '?')
     attributes.has_key?(name) || super
   end
 
