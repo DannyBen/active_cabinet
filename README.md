@@ -119,10 +119,10 @@ song.error   # => "invalid attributes: [:artist]"
 By default, `ActiveCabinet` stores all its files (two files per model) in the
 `./db` directory. The file name is determined by the name of the class.
 
-You can override both of these values
+You can override both of these values:
 
 ```ruby
-# Set the based directory for all cabinets
+# Set the base directory for all cabinets
 ActiveCabinet::Config.dir = "cabinets"
 
 # Set the filename of your model
