@@ -14,7 +14,7 @@ class ActiveCabinet
   #
   # @param [Hash] attributes record attributes
   def initialize(attributes = {})
-    @attributes = attributes.transform_keys(&:to_sym)
+    @attributes = default_attributes.merge attributes.transform_keys(&:to_sym)
   end
 
   # @!group Attribute Management
@@ -42,6 +42,10 @@ class ActiveCabinet
     self.class.optional_attributes
   end
 
+  def default_attributes
+    self.class.default_attributes
+  end
+
   # Returns +true+ if the object is valid.
   # 
   # @return [Boolean] +true+ if the record is valid.
@@ -61,6 +65,23 @@ class ActiveCabinet
     end
 
     true
+  end
+
+  # @!group Attribute Accessors
+
+  # Returns the attribute value for the given key.
+  #
+  # @return [Object] the attribute value.
+  def [](key)
+    attributes[key]
+  end
+
+  # Sets the attribute value for the given key.
+  #
+  # @param [Symbol] key the attribute key.
+  # @param [Object] value the attribute value.
+  def []=(key, value)
+    attributes[key] = value
   end
 
   # @!group Dynamic Attribute Accessors

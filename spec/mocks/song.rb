@@ -1,6 +1,7 @@
 module Mocks
   class Song < ActiveCabinet
     required_attributes :title
+    default_attributes format: :mp3
     optional_attributes :artist, :album
 
     class << self

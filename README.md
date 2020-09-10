@@ -67,8 +67,8 @@ song.update! year: 1988, artist: 'Metallica'  # this variant also saves
 
 ### Restricting / allowing certain attributes
 
-You may specify required arguments. Records without these attributes will
-not be saved. Note that `id` is always required
+You may specify required attributes. Records without these attributes will
+not be saved. Note that `id` is always required.
 
 ```ruby
 class Song < ActiveCabinet
@@ -113,6 +113,22 @@ song = Song.new id: 1, title: 'Moonchild', artist: 'Iron Maiden'
 song.valid?  # => false
 song.error   # => "invalid attributes: [:artist]"
 ```
+
+### Declaring default attribute values
+
+You may specify default values for some attributes. These attrributes will
+be merged into newly created record instances.
+
+```ruby
+class Song < ActiveCabinet
+  required_attributes :title
+  default_attributes format: :mp3
+end
+
+song = Song.new title: "Moonchild"
+song.format   # => :mp3
+```
+
 
 ### Configuring storage path
 

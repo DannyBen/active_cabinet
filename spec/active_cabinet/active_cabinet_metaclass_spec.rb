@@ -39,7 +39,7 @@ describe ActiveCabinet do
 
   describe '::allowed_attributes' do
     it "returns an array of required and optional attributes" do
-      expect(subject.allowed_attributes).to match_array([:id, :title, :artist, :album])
+      expect(subject.allowed_attributes).to match_array([:id, :title, :artist, :album, :format])
     end
   end
 
@@ -131,7 +131,14 @@ describe ActiveCabinet do
 
     context "when the record is not found" do
       it "returns nil" do
-        expect(subject.find(11)).to be_nil
+        expect(subject.find 11).to be_nil
+      end
+    end
+
+    context "when a hash is given" do
+      it "returns the first matching object via #where" do
+        result = subject.find title: "Master of Puppets"
+        expect(result).to be_a Song
       end
     end
   end
@@ -179,11 +186,29 @@ describe ActiveCabinet do
 
     context "with arguments" do
       before { @original = subject.required_attributes }
-      after  { subject.required_attributes @original}
+      after  { subject.required_attributes @original }
 
       it "sets the required attributes and always adds :id" do
         subject.required_attributes :cake, :pizza
         expect(subject.required_attributes).to match_array [:id, :cake, :pizza]
+      end
+    end
+  end
+
+  describe '::default_attributes', :focus do
+    context "without arguments" do
+      it "returns the default arguments hash" do
+        expect(subject.default_attributes).to eq(format: :mp3)
+      end
+    end
+
+    context "with arguments" do
+      before { @original = subject.default_attributes }
+      after  { subject.default_attributes @original }
+
+      it "sets the default attributes" do
+        subject.default_attributes media: :cd
+        expect(subject.default_attributes).to eq({media: :cd})
       end
     end
   end
@@ -203,10 +228,20 @@ describe ActiveCabinet do
   end
 
   describe '::where' do
-    it "returns records matching the block" do
-      result = subject.where { |asset| asset.id > 7 }
-      expect(result.count).to eq 3
-      expect(result.map { |asset| asset.id }).to match_array [8, 9, 10]
+    context "when no query is provided" do
+      it "returns records matching the block" do
+        result = subject.where { |asset| asset.id > 7 }
+        expect(result.count).to eq 3
+        expect(result.map { |asset| asset.id }).to match_array [8, 9, 10]
+      end
+    end
+
+    context "when a query is provided" do
+      it "returns records matching the key => value pair" do
+        result = subject.where title: "Master of Puppets"
+        expect(result.count).to eq 10
+        expect(result.first).to be_a Song
+      end
     end
   end
 end

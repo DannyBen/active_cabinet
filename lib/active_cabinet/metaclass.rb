@@ -69,18 +69,46 @@ class ActiveCabinet
     end
 
     # Returns an array of records for which the block returns true.
+    # When +query+ is provided, it should be a Hash with a single key and
+    # value. The result will be records that have a matching attribute.
+    #
+    # @example Search using a Hash query
+    #   Song.where artist: "Iron Maiden"
+    #
+    # @example Search using a block
+    #   Song.where { |record| record[:artist] == "Iron Maiden" }
     #
     # @yieldparam [Object] record all record instances.
-    def where
-      all.select { |record| yield record }
+    # @return [Array<Object>] record all record instances.
+    def where(query = nil)
+      if query
+        key, value = query.first
+        all.select { |record| record[key] == value }
+      else
+        all.select { |record| yield record }
+      end
     end
 
     # Returns the record matching the +id+.
+    # When providing a Hash with a single key-value pair, it will return the
+    # first matching object from the respective {where} query.
+    #
+    # @example Retrieve a record by ID
+    #   Song.find 1
+    #   Song[1]
+    #
+    # @example Retrieve a different attributes
+    #   Song.find artist: "Iron Maiden"
+    #   Song[artist: "Iron Maiden"]
     #
     # @return [Object, nil] the object if found, or +nil+.
     def find(id)
-      attributes = cabinet[id]
-      attributes ? new(attributes) : nil
+      if id.is_a? Hash
+        where(id).first
+      else
+        attributes = cabinet[id]
+        attributes ? new(attributes) : nil
+      end
     end
     alias [] find
 
@@ -101,11 +129,13 @@ class ActiveCabinet
 
     # @!group Attribute Management
 
-    # Returns an array containing {required_attributes} and {optional_attributes}.
+    # Returns an array containing the keys of all allowed attributes as
+    # defined by {required_attributes}, {optional_attributes} and 
+    # {default_attributes}.
     #
     # @return [Array<Symbol>] array of required attribute keys.
     def allowed_attributes
-      (optional_attributes || []) + required_attributes
+      (optional_attributes || []) + required_attributes + default_attributes.keys
     end
 
     # Sets the required record attribute names.
@@ -135,6 +165,18 @@ class ActiveCabinet
         @optional_attributes = *args
       else
         @optional_attributes.nil? ? [] : @optional_attributes
+      end
+    end
+
+    # Sets the default record attribute values.
+    #
+    # @param [Hash<Symbol, Object>] **attributes one or more attribute names and values.
+    # @return [Hash<Symbol, Object>] the hash of the default attributes.
+    def default_attributes(args = nil)
+      if args
+        @default_attributes = args
+      else
+        @default_attributes ||= {}
       end
     end
 

@@ -47,9 +47,22 @@ describe ActiveCabinet do
     end
   end
 
+  describe '#[]' do
+    it "returns the attribute value" do
+      expect(subject[:title]).to eq "Red Balloons"
+    end
+  end
+
+  describe '#[]=' do
+    it "sets the attribute value" do
+      subject[:title] = "Moonchild"
+      expect(subject.title).to eq "Moonchild"
+    end
+  end
+
   describe '#allowed_attributes' do
     it "returns an array of required and optional attributes" do
-      expect(subject.allowed_attributes).to match_array [:album, :artist, :id, :title]
+      expect(subject.allowed_attributes).to match_array [:album, :artist, :id, :title, :format]
     end
   end
 
