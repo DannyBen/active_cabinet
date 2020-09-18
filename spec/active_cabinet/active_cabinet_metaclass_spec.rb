@@ -95,6 +95,24 @@ describe ActiveCabinet do
     end
   end
 
+  describe '::default_attributes' do
+    context "without arguments" do
+      it "returns the default arguments hash" do
+        expect(subject.default_attributes).to eq(format: :mp3)
+      end
+    end
+
+    context "with arguments" do
+      before { @original = subject.default_attributes }
+      after  { subject.default_attributes @original }
+
+      it "sets the default attributes" do
+        subject.default_attributes media: :cd
+        expect(subject.default_attributes).to eq({media: :cd})
+      end
+    end
+  end
+
   describe '::delete' do
     it "removes a record" do
       expect { subject.delete 2 }.to change { subject.count }.by -1
@@ -104,6 +122,14 @@ describe ActiveCabinet do
   describe '::drop' do
     it "deletes all records" do
       expect { subject.drop }.to change { subject.count }.by -10
+    end
+  end
+
+  describe '::each' do
+    it "yields all records" do
+      subject.each do |record|
+        expect(record).to be_a Song
+      end
     end
   end
 
@@ -143,9 +169,23 @@ describe ActiveCabinet do
     end
   end
 
+  describe '::first' do
+    it "returns the first object" do
+      expect(subject.first).to be_a Song
+      expect(subject.first.id).to eq 1
+    end
+  end
+
   describe '::keys' do
     it "returns an array of keys" do
       expect(subject.keys.map(&:to_i).sort).to eq (1..10).to_a
+    end
+  end
+
+  describe '::last' do
+    it "returns the last object" do
+      expect(subject.last).to be_a Song
+      expect(subject.last.id).to eq 10
     end
   end
 
@@ -177,6 +217,12 @@ describe ActiveCabinet do
     end
   end
 
+  describe '::random' do
+    it "returns a random object" do
+      expect(subject.random).to be_a Song
+    end
+  end
+
   describe '::required_attributes' do
     context "without arguments" do
       it "returns an array of symbols" do
@@ -191,24 +237,6 @@ describe ActiveCabinet do
       it "sets the required attributes and always adds :id" do
         subject.required_attributes :cake, :pizza
         expect(subject.required_attributes).to match_array [:id, :cake, :pizza]
-      end
-    end
-  end
-
-  describe '::default_attributes', :focus do
-    context "without arguments" do
-      it "returns the default arguments hash" do
-        expect(subject.default_attributes).to eq(format: :mp3)
-      end
-    end
-
-    context "with arguments" do
-      before { @original = subject.default_attributes }
-      after  { subject.default_attributes @original }
-
-      it "sets the default attributes" do
-        subject.default_attributes media: :cd
-        expect(subject.default_attributes).to eq({media: :cd})
       end
     end
   end

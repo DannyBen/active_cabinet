@@ -112,9 +112,39 @@ class ActiveCabinet
     end
     alias [] find
 
+    # Yields each record to the given block.
+    #
+    # @yieldparam [Object] record all record instances.
+    def each
+      cabinet.each_value do |attributes|
+        yield new(attributes)
+      end
+    end
+
+    # Returns the first record.
+    #
+    # @return [Object] the record.
+    def first
+      find keys.first
+    end
+
+    # Returns the last record.
+    #
+    # @return [Object] the record.
+    def last
+      find keys.last
+    end
+
+    # Returns a random racord.
+    #
+    # @return [Object] the record.
+    def random
+      find keys.sample
+    end
+
     # @!group Deleting Records
 
-    # Deletes a record matching the +id+
+    # Deletes a record matching the +id+.
     #
     # @param [String] id the record ID.
     # @return [Boolean] +true+ on success, +false+ otherwise.
