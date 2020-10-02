@@ -159,7 +159,7 @@ class ActiveCabinet
   #
   # @param [Hash] new_attributes record attributes
   def update(new_attributes)
-    @attributes = attributes.merge new_attributes
+    @attributes = attributes.merge(new_attributes.transform_keys &:to_sym)
   end
 
   # Update the record with new or modified attributes, and save.
