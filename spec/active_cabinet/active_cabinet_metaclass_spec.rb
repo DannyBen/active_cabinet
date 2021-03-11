@@ -119,6 +119,13 @@ describe ActiveCabinet do
     end
   end
 
+  describe '::delete_if' do
+    it "removes records for which the block returns true" do
+      expect { subject.delete_if { |song| song.id > 7 } }
+        .to change { subject.count }.by -3
+    end
+  end
+
   describe '::drop' do
     it "deletes all records" do
       expect { subject.drop }.to change { subject.count }.by -10
