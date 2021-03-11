@@ -156,7 +156,7 @@ class ActiveCabinet
     #
     # @example Delete records using a block
     #   Song.delete_if { |record| record[:artist] == "Iron Maiden" }
-    def delete_if(&block)
+    def delete_if
       cabinet.delete_if { |key, _value| yield self[key] }
     end
 
