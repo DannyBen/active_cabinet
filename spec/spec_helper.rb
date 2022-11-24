@@ -11,8 +11,8 @@ include Mocks
 
 RSpec.configure do |c|
   c.include SpecMixin
-  c.before(:all) do 
-    system "mkdir -p spec/tmp && rm -f spec/tmp/*"
-    ActiveCabinet::Config.dir = "spec/tmp"
+  c.before(:all) do
+    system 'mkdir -p spec/tmp && rm -f spec/tmp/*'
+    ActiveCabinet::Config.dir = 'spec/tmp'
   end
 end

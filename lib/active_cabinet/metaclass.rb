@@ -25,7 +25,7 @@ require 'active_cabinet/config'
 #
 #   # Delete
 #   Song.delete 1
-#   
+#
 class ActiveCabinet
   class << self
     extend Forwardable
@@ -80,12 +80,12 @@ class ActiveCabinet
     #
     # @yieldparam [Object] record all record instances.
     # @return [Array<Object>] record all record instances.
-    def where(query = nil)
+    def where(query = nil, &block)
       if query
         key, value = query.first
         all.select { |record| record[key] == value }
       else
-        all.select { |record| yield record }
+        all.select(&block)
       end
     end
 
@@ -168,7 +168,7 @@ class ActiveCabinet
     # @!group Attribute Management
 
     # Returns an array containing the keys of all allowed attributes as
-    # defined by {required_attributes}, {optional_attributes} and 
+    # defined by {required_attributes}, {optional_attributes} and
     # {default_attributes}.
     #
     # @return [Array<Symbol>] array of required attribute keys.
@@ -197,7 +197,7 @@ class ActiveCabinet
     # @return [Array<Symbol>] the array of optional attributes.
     def optional_attributes(*args)
       args = args.first if args.first.is_a? Array
-      if args.first === false
+      if args.first == false
         @optional_attributes = false
       elsif args.any?
         @optional_attributes = *args
@@ -222,7 +222,7 @@ class ActiveCabinet
 
     # Returns all records as a hash, with record IDs as the keys.
     def to_h
-      cabinet.to_h.map { |id, attributes| [id, new(attributes)] }.to_h
+      cabinet.to_h.transform_values { |attributes| new(attributes) }
     end
 
     # Returns the +HashCabinet+ instance.
@@ -232,7 +232,7 @@ class ActiveCabinet
       @cabinet ||= HashCabinet.new "#{Config.dir}/#{cabinet_name}"
     end
 
-    # Returns or sets the cabinet name. 
+    # Returns or sets the cabinet name.
     # Defaults to the name of the class, lowercase.
     #
     # @param [String] name the name of the cabinet file.
@@ -242,9 +242,8 @@ class ActiveCabinet
         @cabinet = nil
         @cabinet_name = new_name
       else
-        @cabinet_name ||= self.to_s.downcase.gsub('::', '_')
+        @cabinet_name ||= to_s.downcase.gsub('::', '_')
       end
     end
-
   end
 end

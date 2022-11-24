@@ -26,7 +26,7 @@ class ActiveCabinet
     self.class.allowed_attributes
   end
 
-  # Returns an array of required record attributes. 
+  # Returns an array of required record attributes.
   #
   # @see ActiveCabinet.required_attributes.
   # @return [Array<Symbol>] the array of required attributes
@@ -34,7 +34,7 @@ class ActiveCabinet
     self.class.required_attributes
   end
 
-  # Returns an array of optional record attributes. 
+  # Returns an array of optional record attributes.
   #
   # @see ActiveCabinet.optional_attributes.
   # @return [Array<Symbol>] the array of optional attributes
@@ -47,7 +47,7 @@ class ActiveCabinet
   end
 
   # Returns +true+ if the object is valid.
-  # 
+  #
   # @return [Boolean] +true+ if the record is valid.
   def valid?
     missing_keys = required_attributes - attributes.keys
@@ -56,7 +56,7 @@ class ActiveCabinet
       return false
     end
 
-    if !optional_attributes or optional_attributes.any?
+    if !optional_attributes || optional_attributes.any?
       invalid_keys = attributes.keys - allowed_attributes
       if invalid_keys.any?
         @error = "invalid attributes: #{invalid_keys}"
@@ -99,10 +99,10 @@ class ActiveCabinet
     end
 
     case suffix
-    when "="
+    when '='
       attributes[name] = args.first
 
-    when "?"
+    when '?'
       !!attributes[name]
 
     else
@@ -120,19 +120,20 @@ class ActiveCabinet
     attributes.has_key?(name) || super
   end
 
-  # @!group Loading and Saving 
+  # @!group Loading and Saving
 
-  # Reads the attributes of the record from the cabinet and returns the 
+  # Reads the attributes of the record from the cabinet and returns the
   # record itself. If the record is not stored on disk, returns +nil+.
   #
   # @return [self, nil] the object or +nil+ if the object is not stored.
   def reload
     return nil unless saved?
+
     update cabinet[id]
     self
   end
 
-  # Saves the record to the cabinet if it is valid. Returns the record on 
+  # Saves the record to the cabinet if it is valid. Returns the record on
   # success, or +false+ on failure.
   #
   # @return [self, false] the record or +false+ on failure.
@@ -152,14 +153,14 @@ class ActiveCabinet
   #
   # @return [Boolean] +true+ if the record is saved in the cabinet.
   def saved?
-    cabinet.key? id
+    cabinet.has_key? id
   end
 
   # Update the record with new or modified attributes.
   #
   # @param [Hash] new_attributes record attributes
   def update(new_attributes)
-    @attributes = attributes.merge(new_attributes.transform_keys &:to_sym)
+    @attributes = attributes.merge(new_attributes.transform_keys(&:to_sym))
   end
 
   # Update the record with new or modified attributes, and save.
@@ -184,5 +185,4 @@ protected
   def cabinet
     self.class.cabinet
   end
-
 end
