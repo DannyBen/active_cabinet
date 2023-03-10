@@ -2,7 +2,7 @@
 /.yardoc
 /coverage
 /db
-/debug.rb
+/debug.runfile
 /dev
 /doc
 /Gemfile.lock
