@@ -268,7 +268,7 @@ describe ActiveCabinet do
       it 'returns records matching the block' do
         result = subject.where { |asset| asset.id > 7 }
         expect(result.count).to eq 3
-        expect(result.map(&:id)).to match_array [8, 9, 10]
+        expect(result.map(&:id)).to contain_exactly(8, 9, 10)
       end
     end
 
