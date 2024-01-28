@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.required_ruby_version = '>= 3.0'
 
-  s.add_runtime_dependency 'hash_cabinet', '~> 0.1', '>= 0.1.3'
+  s.add_dependency 'hash_cabinet', '~> 0.1', '>= 0.1.3'
 
   s.metadata = {
     'bug_tracker_uri'       => 'https://github.com/DannyBen/active_cabinet/issues',
