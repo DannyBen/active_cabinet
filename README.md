@@ -1,12 +1,6 @@
 ActiveCabinet
 ==================================================
 
-[![Gem Version](https://badge.fury.io/rb/active_cabinet.svg)](https://badge.fury.io/rb/active_cabinet)
-[![Build Status](https://github.com/DannyBen/active_cabinet/workflows/Test/badge.svg)](https://github.com/DannyBen/active_cabinet/actions?query=workflow%3ATest)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a4302349baf2d20e2af8/maintainability)](https://codeclimate.com/github/DannyBen/active_cabinet/maintainability)
-
----
-
 An ActiveRecord-inspired interface for [HashCabinet], the
 file-based key-object store.
 
