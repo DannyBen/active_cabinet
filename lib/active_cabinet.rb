@@ -87,7 +87,7 @@ class ActiveCabinet
   # @!group Dynamic Attribute Accessors
 
   # Provides read/write access to {attributes}
-  def method_missing(method_name, *args, &blk)
+  def method_missing(method_name, *args, &)
     name = method_name
     return attributes[name] if attributes.has_key? name
 

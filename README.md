@@ -1,6 +1,8 @@
 ActiveCabinet
 ==================================================
 
+![repocard](repocard.svg)
+
 An ActiveRecord-inspired interface for [HashCabinet], the
 file-based key-object store.
 

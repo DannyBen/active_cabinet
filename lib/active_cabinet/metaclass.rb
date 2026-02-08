@@ -29,6 +29,7 @@ require 'active_cabinet/config'
 class ActiveCabinet
   class << self
     extend Forwardable
+
     def_delegators :cabinet, :count, :delete, :empty?, :keys, :size
 
     # @!group Creating Records
@@ -80,12 +81,12 @@ class ActiveCabinet
     #
     # @yieldparam [Object] record all record instances.
     # @return [Array<Object>] record all record instances.
-    def where(query = nil, &block)
+    def where(query = nil, &)
       if query
         key, value = query.first
         all.select { |record| record[key] == value }
       else
-        all.select(&block)
+        all.select(&)
       end
     end
 
@@ -143,14 +144,6 @@ class ActiveCabinet
     end
 
     # @!group Deleting Records
-
-    # Deletes a record matching the +id+.
-    #
-    # @param [String] id the record ID.
-    # @return [Boolean] +true+ on success, +false+ otherwise.
-    def delete(id)
-      !!cabinet.delete(id)
-    end
 
     # Deletes a record for which the block returns true.
     #
